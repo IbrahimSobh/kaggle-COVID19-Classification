@@ -17,7 +17,7 @@ Dataset is organized into 2 folders (train, test) and both train and test contai
 
 It is clear that images are at **different sizes**. 
 
-## Data scaling, normalization and augmentation 
+## 1) Data scaling, normalization and augmentation 
 Based on data inspection, images are scaled to a size of 244 by 244, normalized to values (0,1) and augmented by simple zoom and rotation to enhance the generalization.    
 
 ```
@@ -76,7 +76,7 @@ Testset sample after data preparation:
 
 ![testset_sample](images/testsetsamples_2.JPG)
 
-## Training Tips
+## 2) Training Tips
 
 ### Callbacks
 It is usually important to use callbacks while training. For example:
@@ -116,14 +116,14 @@ model.fit_generator(..., class_weight=class_weights)
 
 Note: class weight is not used in the following experiments.
 
-## Understanding Results through visualization  
+### Understanding Results through visualization  
 
 **Class Activation Map (CAM)** visualization techniques produce heatmaps of 2D class activation over input images, showing how important each location is for the considered class. In the paper [Grad-CAM: Why did you say that? Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the visualization is conducted by taking the output feature map of a convolution layer (given an input image), and then weighing every channel (feature map) by the gradient of the output class wrt the feature map.
 
 ![cradcam](images/gradcam.JPG)
 
 
-## Transfer Learning
+## 3) Transfer Learning
 
 Instead of starting from scratch, **Transfer Learning** is used by loading a generic and well trained image classification network for feature extraction, and then adding few layers (head) to be trained for the target task. Three pretrained networks are used: 
 
@@ -239,7 +239,7 @@ Sampe test results:
 ![testset_sample](images/vgg_05millionparams_test.JPG)
 
 
-## Ensemble Learning 
+## 4) Ensemble Learning 
 
 In Ensemble learning, multiple models, such as classifiers, are combined together to improve the performance.
 
@@ -306,6 +306,8 @@ model_densenet_efnet_vgg_nohead.summary()
 In this setup the final results are marginally better than any of the three models (there is still a room for enhancement)
 
 
+## 5) Code
+The full code can be found on [Kaggle](https://www.kaggle.com/ibrahimsobh/chest-x-ray-covid19-efnet-densenet-vgg-grad-cam/)
 
 # Next Steps:
 - Use more versions of DenseNet and EfficientNet
