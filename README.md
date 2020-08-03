@@ -15,7 +15,7 @@ Dataset is organized into 2 folders (train, test) and both train and test contai
 ![PNEUMONIA_sample](images/PNEUMONIA_samples.JPG)
 ![normal_sample](images/normal_samples.JPG)
 
-It is clear that images are at different sizes. 
+It is clear that images are at **different sizes**. 
 
 ## Data scaling, normalization and augmentation 
 Based on data inspection, images are scaled to a size of 244 by 244, normalized to values (0,1) and augmented by simple zoom and rotation to enhance the generalization.    
@@ -78,6 +78,7 @@ Testset sample after data preparation:
 
 ## Training Tips
 
+### Callbacks
 It is usually important to use callbacks while training. For example:
 - ReduceLROnPlateau: Reduce learning rate when a metric has stopped improving
 - EarlyStopping: Stop training when a monitored metric has stopped improving
@@ -87,7 +88,7 @@ lr_reduce = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5,
 es_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, verbose=1)
 ```
 
-## Label smoothing
+### Label smoothing
 [Label smoothing](https://www.linkedin.com/pulse/label-smoothing-solving-overfitting-overconfidence-code-sobh-phd/) is a mechanism for encouraging the model to be less confident. Instead of minimizing cross-entropy with hard targets (one-hot encoding), we minimize it using soft targets, this usually leads to a better generalization.
 
 ```
@@ -95,6 +96,25 @@ def categorical_smooth_loss(y_true, y_pred, label_smoothing=0.1):
     loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=label_smoothing)
     return loss
 ```
+
+### Imbalanced data 
+
+In the case where data is (number of samples of some class is much more another class), different methods can be applied. **Class weight** is a simple method that can be used  to specify sample weights when fitting the classifiers. For example, in the training data it is found that:
+- NORMAL: 1266
+- PNEUMONIA: 3418
+- COVID19: 460
+
+Accoringly, class weights can be applied:   
+
+```
+counter = Counter(training_set.classes)                          
+max_val = float(max(counter.values()))       
+class_weights = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+
+model.fit_generator(..., class_weight=class_weights)
+```
+
+Note: class weight is not used in the following experiments.
 
 ## Understanding Results through visualization  
 
@@ -116,7 +136,7 @@ Steps:
 - Freeze the weights of the pretrained network.
 - Add new head layers to be trained.
 
-### DenseNet201
+### DenseNet201 Transfer Learning
 
 ```
 pretrained_densenet = tf.keras.applications.DenseNet201(input_shape=(image_size, image_size, 3), weights='imagenet', include_top=False)
@@ -151,7 +171,7 @@ Sampe test results:
 ![testset_sample](images/densenet_1millionparams_test.JPG)
 
 
-### EfficientNetB7
+### EfficientNetB7 Transfer Learning
 
 ```
 pretrained_efnet = efn.EfficientNetB7(input_shape=(image_size, image_size, 3), weights='noisy-student', include_top=False)
@@ -182,7 +202,9 @@ Sampe test results:
 
 ![testset_sample](images/efnet_14millionparams_test.JPG)
 
-### VGG16
+Note that the defualt image size for the EfficientNetB7 is 600 by 600
+
+### VGG16 Transfer Learning
 
 ```
 pretrained_vgg = tf.keras.applications.VGG16(input_shape=(image_size, image_size, 3), weights='imagenet', include_top=False)
@@ -290,4 +312,4 @@ In this setup the final results are marginally better than any of the three mode
 - Apply fine fine-tuning on some layers 
 - Apply more reasonable data augmentation
 - Try Focal Loss with different settings
--  
+- The cost of misclassification of normal as covid19 is not the same as misclassification of covid19 as normal.
