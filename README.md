@@ -8,7 +8,15 @@ In this classification project, there are three classes:
 
 ![cover](images/result_sample.JPG)
 
-## Data description
+## Contents: 
+- Data description
+- Data scaling, normalization and augmentation 
+- Training Tips
+- Transfer Learning
+- Ensemble Learning
+- Next Steps
+
+## 1) Data description
 Dataset is organized into 2 folders (train, test) and both train and test contain 3 subfolders (COVID19, PNEUMONIA, NORMAL) one for each class. DataSet contains total 6432 x-ray images and test data have 20% of total images. As a start, it is very important to inspect the data across the three classes:
 
 ![cov_sample](images/covid_samples.JPG)
@@ -17,7 +25,8 @@ Dataset is organized into 2 folders (train, test) and both train and test contai
 
 It is clear that images are at **different sizes**. 
 
-## 1) Data scaling, normalization and augmentation 
+
+## 2) Data scaling, normalization and augmentation 
 Based on data inspection, images are scaled to a size of 244 by 244, normalized to values (0,1) and augmented by simple zoom and rotation to enhance the generalization.    
 
 ```
@@ -76,7 +85,7 @@ Testset sample after data preparation:
 
 ![testset_sample](images/testsetsamples_2.JPG)
 
-## 2) Training Tips
+## 3) Training Tips
 
 ### Callbacks
 It is usually important to use callbacks while training. For example:
@@ -123,7 +132,7 @@ Note: class weight is not used in the following experiments.
 ![cradcam](images/gradcam.JPG)
 
 
-## 3) Transfer Learning
+## 4) Transfer Learning
 
 Instead of starting from scratch, **Transfer Learning** is used by loading a generic and well trained image classification network for feature extraction, and then adding few layers (head) to be trained for the target task. Three pretrained networks are used: 
 
@@ -239,7 +248,7 @@ Sampe test results:
 ![testset_sample](images/vgg_05millionparams_test.JPG)
 
 
-## 4) Ensemble Learning 
+## 5) Ensemble Learning 
 
 In Ensemble learning, multiple models, such as classifiers, are combined together to improve the performance.
 
@@ -306,12 +315,12 @@ model_densenet_efnet_vgg_nohead.summary()
 In this setup the final results are marginally better than any of the three models (there is still a room for enhancement)
 
 
-## 5) Code
+## Code
 The full code can be found on [Kaggle](https://www.kaggle.com/ibrahimsobh/chest-x-ray-covid19-efnet-densenet-vgg-grad-cam/)
 
-# Next Steps:
+# 6) Next Steps:
 - Use more versions of DenseNet and EfficientNet
-- Apply fine fine-tuning on some layers 
+- Apply fine-tuning on some layers 
 - Apply more reasonable data augmentation
 - Try Focal Loss with different settings
 - The cost of misclassification of normal as covid19 is not the same as misclassification of covid19 as normal.
