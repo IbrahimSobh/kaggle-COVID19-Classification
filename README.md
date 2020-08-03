@@ -76,6 +76,33 @@ Testset sample after data preparation:
 
 ![testset_sample](images/testsetsamples_2.JPG)
 
+## Training Tips
+
+It is usually important to use callbacks while training. For example:
+- ReduceLROnPlateau: Reduce learning rate when a metric has stopped improving
+- EarlyStopping: Stop training when a monitored metric has stopped improving
+
+```
+lr_reduce = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, epsilon=0.0001, patience=3, verbose=1)
+es_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, verbose=1)
+```
+
+## Label smoothing
+[Label smoothing](https://www.linkedin.com/pulse/label-smoothing-solving-overfitting-overconfidence-code-sobh-phd/) is a mechanism for encouraging the model to be less confident. Instead of minimizing cross-entropy with hard targets (one-hot encoding), we minimize it using soft targets, this usually leads to a better generalization.
+
+```
+def categorical_smooth_loss(y_true, y_pred, label_smoothing=0.1):
+    loss = tf.keras.losses.categorical_crossentropy(y_true, y_pred, label_smoothing=label_smoothing)
+    return loss
+```
+
+## Understanding Results through visualization  
+
+**Class Activation Map (CAM)** visualization techniques produce heatmaps of 2D class activation over input images, showing how important each location is for the considered class. In the paper [Grad-CAM: Why did you say that? Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the visualization is conducted by taking the output feature map of a convolution layer (given an input image), and then weighing every channel (feature map) by the gradient of the output class wrt the feature map.
+
+![cradcam](images/gradcam.JPG)
+
+
 ## Transfer Learning
 
 Instead of starting from scratch, **Transfer Learning** is used by loading a generic and well trained image classification network for feature extraction, and then adding few layers (head) to be trained for the target task. Three pretrained networks are used: 
@@ -257,3 +284,10 @@ model_densenet_efnet_vgg_nohead.summary()
 In this setup the final results are marginally better than any of the three models (there is still a room for enhancement)
 
 
+
+# Next Steps:
+- Use more versions of DenseNet and EfficientNet
+- Apply fine fine-tuning on some layers 
+- Apply more reasonable data augmentation
+- Try Focal Loss with different settings
+-  
