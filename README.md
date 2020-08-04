@@ -323,8 +323,9 @@ In this setup the final results are marginally better than any of the three mode
 The full code can be found on [Kaggle](https://www.kaggle.com/ibrahimsobh/chest-x-ray-covid19-efnet-densenet-vgg-grad-cam/)
 
 # 6) Next Steps:
-- Use more versions of DenseNet and EfficientNet
+- Use more versions of DenseNet EfficientNet 
+- Use other nets such as MobileNet
 - Apply fine-tuning on some layers 
 - Apply more reasonable data augmentation
 - Try Focal Loss with different settings
-- The cost of misclassification of normal as covid19 is not the same as misclassification of covid19 as normal.
+- Consider that the cost of misclassification of normal as covid19 is not the same as misclassification of covid19 as normal
