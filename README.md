@@ -12,6 +12,7 @@ In this classification project, there are three classes:
 - Data description
 - Data scaling, normalization and augmentation 
 - Training Tips
+- Understanding Results through visualization
 - Transfer Learning
 - Ensemble Learning
 - Next Steps
@@ -125,7 +126,7 @@ model.fit_generator(..., class_weight=class_weights)
 
 Note: class weight is not used in the following experiments.
 
-### Understanding Results through visualization  
+## 4) Understanding Results through visualization  
 
 **Class Activation Map (CAM)** visualization techniques produce heatmaps of 2D class activation over input images, showing how important each location is for the considered class. In the paper [Grad-CAM: Why did you say that? Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the visualization is conducted by taking the output feature map of a convolution layer (given an input image), and then weighing every channel (feature map) by the gradient of the output class wrt the feature map.
 
@@ -136,7 +137,7 @@ For example, the last CNN layer of some trained network has shape of 7 x 7 x n. 
 ![cradcam2](images/grad_cam_ex01.png)
 
 
-## 4) Transfer Learning
+## 5) Transfer Learning
 
 Instead of starting from scratch, **Transfer Learning** is used by loading a generic and well trained image classification network for feature extraction, and then adding few layers (head) to be trained for the target task. Three pretrained networks are used: 
 
@@ -252,7 +253,7 @@ Sampe test results:
 ![testset_sample](images/vgg_05millionparams_test.JPG)
 
 
-## 5) Ensemble Learning 
+## 6) Ensemble Learning 
 
 In Ensemble learning, multiple models, such as classifiers, are combined together to improve the performance.
 
@@ -322,7 +323,7 @@ In this setup the final results are marginally better than any of the three mode
 ## Code
 The full code can be found on [Kaggle](https://www.kaggle.com/ibrahimsobh/chest-x-ray-covid19-efnet-densenet-vgg-grad-cam/)
 
-# 6) Next Steps:
+# 7) Next Steps:
 - Use more versions of DenseNet EfficientNet 
 - Use other nets such as MobileNet
 - Apply fine-tuning on some layers 
