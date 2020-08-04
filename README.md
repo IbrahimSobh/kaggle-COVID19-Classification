@@ -131,7 +131,7 @@ Note: class weight is not used in the following experiments.
 
 ![cradcam](images/gradcam.JPG)
 
-For example, the last CNN layer of some trained network has shape of 7 x 7 x n. Accordingly, we can find the corresponding ** 7 x 7 heatmap** and generate the final result as shown below for the COVID19 test sample located at /test/COVID19/COVID19(164).jpg
+For example, the last CNN layer of some trained network has shape of 7 x 7 x n. Accordingly, we can find the corresponding **7 x 7 heatmap** and generate the final result as shown below for the COVID19 test sample located at /test/COVID19/COVID19(164).jpg
 
 ![cradcam2](images/grad_cam_ex01.png)
 
